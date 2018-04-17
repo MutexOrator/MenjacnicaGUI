@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -16,12 +17,16 @@ import java.awt.Toolkit;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import menjacnica.Menjacnica;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
@@ -32,6 +37,8 @@ import java.awt.FlowLayout;
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import javax.swing.ScrollPaneConstants;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -49,12 +56,14 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem mntmExit;
 	private JMenuItem mntmAbout;
 	private JTable table;
-	private JPanel panel_1;
-	private JTextArea textArea;
 	private JPopupMenu popupMenu;
 	private JMenuItem mntmDodajKnjigu;
 	private JMenuItem mntmNewMenuItem_1;
 	private JMenuItem mntmNewMenuItem_2;
+	/////////////////////////////////
+	protected Menjacnica sistem;
+	private JScrollPane scrollPane_1;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -88,7 +97,9 @@ public class MenjacnicaGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.add(getScrollPane(), BorderLayout.CENTER);
 		contentPane.add(getPanel(), BorderLayout.EAST);
-		contentPane.add(getPanel_1(), BorderLayout.SOUTH);
+		contentPane.add(getScrollPane_1(), BorderLayout.SOUTH);
+		
+		sistem = new Menjacnica();
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -160,6 +171,23 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmNewMenuItem() {
 		if (mntmNewMenuItem == null) {
 			mntmNewMenuItem = new JMenuItem("Open");
+			mntmNewMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						JFileChooser fc = new JFileChooser();
+						int returnVal = fc.showOpenDialog(contentPane);
+
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							File file = fc.getSelectedFile();
+							textArea.append("Ucitan fajl: " + file.getAbsolutePath()+" \n");
+						
+						}
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
+								"Greska", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
 			mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 			mntmNewMenuItem.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/directory.gif")));
 		}
@@ -168,6 +196,23 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmSave() {
 		if (mntmSave == null) {
 			mntmSave = new JMenuItem("Save");
+			mntmSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						JFileChooser fc = new JFileChooser();
+						int returnVal = fc.showSaveDialog(contentPane);
+
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							File file = fc.getSelectedFile();
+
+							textArea.append("Sacuvan fajl " + file.getAbsolutePath()+"\n");
+						}
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
+								"Greska", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
 			mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 			mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
 		}
@@ -176,6 +221,16 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmExit() {
 		if (mntmExit == null) {
 			mntmExit = new JMenuItem("Exit");
+			mntmExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int opcija = JOptionPane.showConfirmDialog(contentPane,
+							"Da li zelite da izadjete iz programa", "Izlazak",
+							JOptionPane.YES_NO_CANCEL_OPTION);
+
+					if (opcija == JOptionPane.YES_OPTION)
+						System.exit(0);
+				}
+			});
 			mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK));
 		}
 		return mntmExit;
@@ -183,6 +238,13 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About");
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(contentPane,
+							"Autor: Dusko Milosevic, Verzija 1.0", "O programu Menjacnica",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			});
 		}
 		return mntmAbout;
 	}
@@ -198,22 +260,6 @@ public class MenjacnicaGUI extends JFrame {
 			));
 		}
 		return table;
-	}
-	private JPanel getPanel_1() {
-		if (panel_1 == null) {
-			panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(null, "STATUS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_1.setLayout(new BorderLayout(0, 0));
-			panel_1.add(getTextArea(), BorderLayout.CENTER);
-		}
-		return panel_1;
-	}
-	private JTextArea getTextArea() {
-		if (textArea == null) {
-			textArea = new JTextArea();
-			textArea.setBorder(new LineBorder(new Color(0, 0, 0)));
-		}
-		return textArea;
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		
@@ -259,5 +305,20 @@ public class MenjacnicaGUI extends JFrame {
 			mntmNewMenuItem_2 = new JMenuItem("Izrvsi zamenu");
 		}
 		return mntmNewMenuItem_2;
+	}
+	private JScrollPane getScrollPane_1() {
+		if (scrollPane_1 == null) {
+			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane_1.setBorder(new TitledBorder(null, "STATUS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			scrollPane_1.setViewportView(getTextArea_1());
+		}
+		return scrollPane_1;
+	}
+	private JTextArea getTextArea_1() {
+		if (textArea == null) {
+			textArea = new JTextArea();
+		}
+		return textArea;
 	}
 }
