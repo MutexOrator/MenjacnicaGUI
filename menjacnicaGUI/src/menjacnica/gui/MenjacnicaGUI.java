@@ -51,6 +51,10 @@ public class MenjacnicaGUI extends JFrame {
 	private JTable table;
 	private JPanel panel_1;
 	private JTextArea textArea;
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmDodajKnjigu;
+	private JMenuItem mntmNewMenuItem_1;
+	private JMenuItem mntmNewMenuItem_2;
 
 	/**
 	 * Launch the application.
@@ -89,6 +93,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
+			addPopup(scrollPane, getPopupMenu());
 			scrollPane.setViewportView(getTable());
 		}
 		return scrollPane;
@@ -211,6 +216,7 @@ public class MenjacnicaGUI extends JFrame {
 		return textArea;
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
+		
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (e.isPopupTrigger()) {
@@ -226,5 +232,32 @@ public class MenjacnicaGUI extends JFrame {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	private JPopupMenu getPopupMenu() {
+		if (popupMenu == null) {
+			popupMenu = new JPopupMenu();
+			popupMenu.add(getMntmDodajKnjigu());
+			popupMenu.add(getMntmNewMenuItem_1());
+			popupMenu.add(getMntmNewMenuItem_2());
+		}
+		return popupMenu;
+	}
+	private JMenuItem getMntmDodajKnjigu() {
+		if (mntmDodajKnjigu == null) {
+			mntmDodajKnjigu = new JMenuItem("Dodaj knjigu");
+		}
+		return mntmDodajKnjigu;
+	}
+	private JMenuItem getMntmNewMenuItem_1() {
+		if (mntmNewMenuItem_1 == null) {
+			mntmNewMenuItem_1 = new JMenuItem("Obrisi kurs");
+		}
+		return mntmNewMenuItem_1;
+	}
+	private JMenuItem getMntmNewMenuItem_2() {
+		if (mntmNewMenuItem_2 == null) {
+			mntmNewMenuItem_2 = new JMenuItem("Izrvsi zamenu");
+		}
+		return mntmNewMenuItem_2;
 	}
 }
