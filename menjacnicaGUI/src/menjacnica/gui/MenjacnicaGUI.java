@@ -125,7 +125,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setPreferredSize(new Dimension(160, 10));
+			panel.setPreferredSize(new Dimension(170, 10));
 			panel.add(getBtnDodajKurs());
 			panel.add(getBtnObrisiKurs());
 			panel.add(getBtnIzvrsiZamenu());
@@ -140,7 +140,7 @@ public class MenjacnicaGUI extends JFrame {
 					prikaziDodajKursGUI();
 				}
 			});
-			btnDodajKurs.setPreferredSize(new Dimension(110, 23));
+			btnDodajKurs.setPreferredSize(new Dimension(120, 23));
 		}
 		return btnDodajKurs;
 	}
@@ -152,16 +152,17 @@ public class MenjacnicaGUI extends JFrame {
 					prikaziObrisiKursGUI();
 				}
 			});
-			btnObrisiKurs.setPreferredSize(new Dimension(110, 23));
+			btnObrisiKurs.setPreferredSize(new Dimension(120, 23));
 		}
 		return btnObrisiKurs;
 	}
 	private JButton getBtnIzvrsiZamenu() {
 		if (btnIzvrsiZamenu == null) {
 			btnIzvrsiZamenu = new JButton("Izvrsi zamenu");
-			btnIzvrsiZamenu.setPreferredSize(new Dimension(110, 23));
+			btnIzvrsiZamenu.setPreferredSize(new Dimension(120, 23));
 			btnIzvrsiZamenu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					prikaziIzvrsiZamenuGUI();
 				}
 			});
 		}
@@ -336,6 +337,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmNewMenuItem_2() {
 		if (mntmNewMenuItem_2 == null) {
 			mntmNewMenuItem_2 = new JMenuItem("Izrvsi zamenu");
+			mntmNewMenuItem_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					prikaziIzvrsiZamenuGUI();
+				}
+			});
 		}
 		return mntmNewMenuItem_2;
 	}
@@ -351,6 +357,8 @@ public class MenjacnicaGUI extends JFrame {
 	private JTextArea getTextArea_1() {
 		if (textArea == null) {
 			textArea = new JTextArea();
+			textArea.setPreferredSize(new Dimension(4, 50));
+			textArea.setMinimumSize(new Dimension(4, 23));
 		}
 		return textArea;
 	}
@@ -364,6 +372,11 @@ public class MenjacnicaGUI extends JFrame {
 //		if (table.getSelectedRow() != -1) {
 //			MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
 			ObrisiKursGUI prozor = new ObrisiKursGUI(this);
+			prozor.setLocationRelativeTo(contentPane);
+			prozor.setVisible(true);
+		}
+	private void prikaziIzvrsiZamenuGUI() {
+			IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(this);
 			prozor.setLocationRelativeTo(contentPane);
 			prozor.setVisible(true);
 		}

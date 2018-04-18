@@ -164,7 +164,7 @@ public class DodajKursGUI extends JFrame {
 						String s;
 						s = "Pun naziv valute je "+textFieldNaziv.getText() + " skraceni naziv valute je " + textFieldSkraceniNaziv.getText()
 						+ " sifra valute je " + textFieldSifra.getText() + " prodajni kurs iznosi " + textFieldProdajni.getText()
-						+ " srednji kurs iznosi " + textFieldSrednji.getText()+ " kupovni kurs iznosi " + textFieldKupovni.getText();
+						+ " srednji kurs iznosi " + textFieldSrednji.getText()+ " kupovni kurs iznosi " + textFieldKupovni.getText() + "\n";
 						glavniProzor.textArea.setText(s);
 						dispose();
 					} catch (Exception e1) {

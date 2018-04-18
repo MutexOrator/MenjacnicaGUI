@@ -198,7 +198,7 @@ public class ObrisiKursGUI extends JFrame {
 			String s;
 			s = "Pun naziv valute je "+textFieldNaziv.getText() + " skraceni naziv valute je " + textFieldSkraceni.getText()
 			+ " sifra valute je " + textFieldSifra.getText() + " prodajni kurs iznosi " + textFieldProdajni.getText()
-			+ " srednji kurs iznosi " + textFieldSrednji.getText()+ " kupovni kurs iznosi " + textFieldKupovni.getText();
+			+ " srednji kurs iznosi " + textFieldSrednji.getText()+ " kupovni kurs iznosi " + textFieldKupovni.getText() + "\n";
 			glavniProzor.textArea.setText(s);
 			dispose();
 		} catch (Exception e1) {
