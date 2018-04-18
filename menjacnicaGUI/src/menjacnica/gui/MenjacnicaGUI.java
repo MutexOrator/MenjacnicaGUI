@@ -37,6 +37,8 @@ import java.awt.FlowLayout;
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.ScrollPaneConstants;
 
@@ -63,8 +65,8 @@ public class MenjacnicaGUI extends JFrame {
 	/////////////////////////////////
 	protected Menjacnica sistem;
 	private JScrollPane scrollPane_1;
-	private JTextArea textArea;
-
+	protected JTextArea textArea;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -85,9 +87,20 @@ public class MenjacnicaGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MenjacnicaGUI() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int opcija = JOptionPane.showConfirmDialog(contentPane,
+						"Da li zelite da izadjete iz programa", "Izlazak",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+
+				if (opcija == JOptionPane.YES_OPTION)
+					System.exit(0);
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MenjacnicaGUI.class.getResource("/icons/images.jpg")));
 		setTitle("Menjacnica");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 864, 407);
 		setLocationRelativeTo(null);
 		setJMenuBar(getMenuBar_1());
@@ -122,6 +135,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnDodajKurs() {
 		if (btnDodajKurs == null) {
 			btnDodajKurs = new JButton("Dodaj kurs");
+			btnDodajKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					prikaziDodajKursGUI();
+				}
+			});
 			btnDodajKurs.setPreferredSize(new Dimension(110, 23));
 		}
 		return btnDodajKurs;
@@ -129,6 +147,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnObrisiKurs() {
 		if (btnObrisiKurs == null) {
 			btnObrisiKurs = new JButton("Obrisi kurs");
+			btnObrisiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					prikaziObrisiKursGUI();
+				}
+			});
 			btnObrisiKurs.setPreferredSize(new Dimension(110, 23));
 		}
 		return btnObrisiKurs;
@@ -290,13 +313,23 @@ public class MenjacnicaGUI extends JFrame {
 	}
 	private JMenuItem getMntmDodajKnjigu() {
 		if (mntmDodajKnjigu == null) {
-			mntmDodajKnjigu = new JMenuItem("Dodaj knjigu");
+			mntmDodajKnjigu = new JMenuItem("Dodaj kurs");
+			mntmDodajKnjigu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					prikaziDodajKursGUI();
+				}
+			});
 		}
 		return mntmDodajKnjigu;
 	}
 	private JMenuItem getMntmNewMenuItem_1() {
 		if (mntmNewMenuItem_1 == null) {
 			mntmNewMenuItem_1 = new JMenuItem("Obrisi kurs");
+			mntmNewMenuItem_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					prikaziObrisiKursGUI();
+				}
+			});
 		}
 		return mntmNewMenuItem_1;
 	}
@@ -321,4 +354,18 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return textArea;
 	}
-}
+	private void prikaziDodajKursGUI() {
+		DodajKursGUI prozor = new DodajKursGUI(this);
+		prozor.setLocationRelativeTo(contentPane);
+		prozor.setVisible(true);
+	}
+	private void prikaziObrisiKursGUI() {
+		
+//		if (table.getSelectedRow() != -1) {
+//			MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
+			ObrisiKursGUI prozor = new ObrisiKursGUI(this);
+			prozor.setLocationRelativeTo(contentPane);
+			prozor.setVisible(true);
+		}
+	}
+
